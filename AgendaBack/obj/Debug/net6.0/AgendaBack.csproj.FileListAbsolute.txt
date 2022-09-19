@@ -1,0 +1,5 @@
+/Users/luizeduardosantos/Documents/Programacao/curso-PCS/4.MetodosAgeis/AgendaBack/AgendaBack/obj/Debug/net6.0/AgendaBack.csproj.AssemblyReference.cache
+/Users/luizeduardosantos/Documents/Programacao/curso-PCS/4.MetodosAgeis/AgendaBack/AgendaBack/obj/Debug/net6.0/AgendaBack.GeneratedMSBuildEditorConfig.editorconfig
+/Users/luizeduardosantos/Documents/Programacao/curso-PCS/4.MetodosAgeis/AgendaBack/AgendaBack/obj/Debug/net6.0/AgendaBack.AssemblyInfoInputs.cache
+/Users/luizeduardosantos/Documents/Programacao/curso-PCS/4.MetodosAgeis/AgendaBack/AgendaBack/obj/Debug/net6.0/AgendaBack.AssemblyInfo.cs
+/Users/luizeduardosantos/Documents/Programacao/curso-PCS/4.MetodosAgeis/AgendaBack/AgendaBack/obj/Debug/net6.0/AgendaBack.csproj.CoreCompileInputs.cache

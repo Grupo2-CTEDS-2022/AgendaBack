@@ -1,0 +1,2 @@
+﻿Newtonsoft.Json
+System.Data.SqlClient
