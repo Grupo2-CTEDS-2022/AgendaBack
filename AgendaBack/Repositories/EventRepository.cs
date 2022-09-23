@@ -53,8 +53,10 @@ namespace AgendaBack.Repositories
 
                         };
                         // atribuir o addedUsers do event
-                        Console.WriteLine(evento.addedUsersString);
-                        if (evento.addedUsersString.Contains(user.Id.ToString())) listEvents.Add(evento);
+
+                        evento.StringToList();
+                        
+                        if (evento.addedUsers.Contains(user.Id)) listEvents.Add(evento);
                     }
                 }
             }
@@ -77,6 +79,8 @@ namespace AgendaBack.Repositories
 
         public static void addEvent(User user, Event evento)
         {
+
+            // não revisado
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
 
@@ -86,7 +90,7 @@ namespace AgendaBack.Repositories
                 using (SqlCommand cmd = new SqlCommand(queryInsert, con))
                 {
                     cmd.Parameters.AddWithValue("@Id", evento.Id);
-                    cmd.Parameters.AddWithValue("@Date", evento.Start);
+                    cmd.Parameters.AddWithValue("@Name", evento.Start);
                     cmd.Parameters.AddWithValue("@Description", evento.Description);
                     cmd.Parameters.AddWithValue("@Price", evento.End);
 

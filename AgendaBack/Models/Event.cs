@@ -21,6 +21,18 @@ namespace AgendaBack.Models
         {
             addedUsers.Add(user.Id);
         }
+
+        public void StringToList()
+        {
+            List<int> addedUsers = new List<int>();
+
+            string[] ids = addedUsersString.Split(',');
+            foreach (string id in ids)
+            {
+                addedUsers.Add(Convert.ToInt32(id));
+            }
+
+        }
     }
 
 }
