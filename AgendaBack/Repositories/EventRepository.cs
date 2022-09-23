@@ -17,7 +17,7 @@ namespace AgendaBack.Repositories
     internal class EventRepository
     {
 
-        // private static string stringConexao = "Server=labsoft.pcs.usp.br; Initial Catalog = Eventos; User id=usuario_16; pwd=";
+        private static string stringConexao = "Server=labsoft.pcs.usp.br; Initial Catalog = db_16; User id=usuario_16; pwd=";
         //private readonly string stringConexao = "Data source=MP\\SQLEXPRESS; Initial Catalog=Catalog; integrated security=true;";
         public static string ReadEvents(User user)
         {
@@ -25,7 +25,7 @@ namespace AgendaBack.Repositories
             List<Event> listEvents = new();
 
 
-            using (SqlConnection con = new SqlConnection(stringConexao))
+            using (SqlConnection con = new SqlConnection(stringConexao + Keys.databaseKey))
             {
                 string querySelect = "SELECT * FROM Eventos";
 
@@ -46,9 +46,14 @@ namespace AgendaBack.Repositories
                             Name = rdr[1].ToString(),
                             Description = rdr[2].ToString(),
                             Start = Convert.ToDateTime(rdr[3]),
-                            End = Convert.ToDateTime(rdr[4])
+                            End = Convert.ToDateTime(rdr[4]),
+                            addedUsersString = rdr[5].ToString()
+
                         };
-                        // atribuir o addedUsers do event 
+                        // atribuir o addedUsers do event
+
+                        evento.StringToList();
+                        
                         if (evento.addedUsers.Contains(user.Id)) listEvents.Add(evento);
                     }
                 }
@@ -72,6 +77,8 @@ namespace AgendaBack.Repositories
 
         public static void addEvent(User user, Event evento)
         {
+
+            // não revisado
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
 
@@ -81,7 +88,7 @@ namespace AgendaBack.Repositories
                 using (SqlCommand cmd = new SqlCommand(queryInsert, con))
                 {
                     cmd.Parameters.AddWithValue("@Id", evento.Id);
-                    cmd.Parameters.AddWithValue("@Date", evento.Start);
+                    cmd.Parameters.AddWithValue("@Name", evento.Start);
                     cmd.Parameters.AddWithValue("@Description", evento.Description);
                     cmd.Parameters.AddWithValue("@Price", evento.End);
 
