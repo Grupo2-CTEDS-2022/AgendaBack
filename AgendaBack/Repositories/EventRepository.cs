@@ -1,7 +1,7 @@
 ﻿using AgendaBack.Models;
 using System.Data.SqlClient;
 
-sing System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
