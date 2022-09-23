@@ -6,9 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using System.Text.Json;
-
 using System.Data.SqlClient;
 
 using AgendaBack.Models;
@@ -19,7 +17,7 @@ namespace AgendaBack.Repositories
     internal class EventRepository
     {
 
-        private static string stringConexao = "Server=labsoft.pcs.usp.br; Initial Catalog = Eventos; User id=usuario_16; pwd=";
+        // private static string stringConexao = "Server=labsoft.pcs.usp.br; Initial Catalog = Eventos; User id=usuario_16; pwd=";
         //private readonly string stringConexao = "Data source=MP\\SQLEXPRESS; Initial Catalog=Catalog; integrated security=true;";
         public static string ReadEvents(User user)
         {
