@@ -15,7 +15,11 @@ GO
 
 -- Insere um registro na tabela
 INSERT INTO Eventos (Id, [Name], [Description], [Start], [End], Users)
-VALUES				 ();
+VALUES				 (1345, 'Festa', 'Aniversario legal', '2008-11-11 13:23:4', '00000');
+GO
+
+-- Lista os dados da tabela
+SELECT * FROM Events;
 GO
 
 -- Deleta um registro que coincida com o IdProduct informado
