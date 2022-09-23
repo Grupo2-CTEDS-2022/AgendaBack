@@ -14,6 +14,13 @@ namespace AgendaBack.Models
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
 
+        public string addedUsersString { get; set; }
         public List<int> addedUsers;
+
+        public void addUser(User user)
+        {
+            addedUsers.Add(user.Id);
+        }
     }
+
 }
