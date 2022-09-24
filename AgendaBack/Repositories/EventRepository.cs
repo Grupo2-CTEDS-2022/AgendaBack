@@ -17,7 +17,7 @@ namespace AgendaBack.Repositories
     internal class EventRepository
     {
 
-        private static string stringConexao = "Server=labsoft.pcs.usp.br; Initial Catalog = db_16; User id=usuario_16; pwd=";
+        private static string stringConexao = "Server=labsoft.pcs.usp.br; Initial Catalog = db_16; User id=usuario_16; pwd=51068523824";
         //private readonly string stringConexao = "Data source=MP\\SQLEXPRESS; Initial Catalog=Catalog; integrated security=true;";
         public static string ReadEvents(User user)
         {
@@ -25,7 +25,7 @@ namespace AgendaBack.Repositories
             List<Event> listEvents = new();
 
 
-            using (SqlConnection con = new SqlConnection(stringConexao + Keys.databaseKey))
+            using (SqlConnection con = new SqlConnection(stringConexao))
             {
                 string querySelect = "SELECT * FROM Eventos";
 
