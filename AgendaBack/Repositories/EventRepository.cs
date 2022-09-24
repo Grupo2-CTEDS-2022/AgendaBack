@@ -11,6 +11,9 @@ using System.Data.SqlClient;
 
 using AgendaBack.Models;
 using System.Net;
+using System.Collections;
+using System.Xml.Linq;
+using AgendaBack;
 
 namespace AgendaBack.Repositories
 {
@@ -19,7 +22,13 @@ namespace AgendaBack.Repositories
 
         private static string stringConexao = "Server=labsoft.pcs.usp.br; Initial Catalog = db_16; User id=usuario_16; pwd=51068523824";
         //private readonly string stringConexao = "Data source=MP\\SQLEXPRESS; Initial Catalog=Catalog; integrated security=true;";
-        public static string ReadEvents(User user)
+
+      
+
+   
+
+        //**
+        public static string ReadInInterval(int id, DateTime start, DateTime end)
         {
 
             List<Event> listEvents = new();
@@ -47,52 +56,61 @@ namespace AgendaBack.Repositories
                             Description = rdr[2].ToString(),
                             Start = Convert.ToDateTime(rdr[3]),
                             End = Convert.ToDateTime(rdr[4]),
-                            addedUsersString = rdr[5].ToString()
+                            addedUsersString = rdr[5].ToString(),
+                            addedUsers = new List<int>()
 
                         };
-                        // atribuir o addedUsers do event
 
-                        evento.StringToList();
-                        
-                        if (evento.addedUsers.Contains(user.Id)) listEvents.Add(evento);
+                        string[] ids = evento.addedUsersString.Split(',');
+                        foreach (string i in ids)
+                        {
+
+                            evento.addedUsers.Add(int.Parse(i));
+                        }
+
+
+
+
+                        if (evento.addedUsers.Contains(id) && DateTime.Compare(evento.Start, start) > 0 && DateTime.Compare(evento.Start, end) < 0)
+                        {
+                            listEvents.Add(evento);
+                        }
+
+
                     }
                 }
             }
 
-            return EventRepository.listToJson(listEvents);
+            return JsonSerializer.Serialize(listEvents);
         }
 
-        private static string listToJson(List<Event> listEventos)
-        {
-
-            var json = JsonSerializer.Serialize(listEventos);
-            return json;
-
-        }
+        
 
         public static void AddUserToEvent(Event evento, User user)
         {
             throw new NotImplementedException();
         }
+       
 
-        public static void addEvent(User user, Event evento)
+        // **
+        public static void CreateEvent(int creatorId, int IdEvent, string Name, string Description, DateTime Start, DateTime End)
         {
 
-            // não revisado
+            
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
 
 
-                string queryInsert = "INSERT INTO Products (IdProduct, Name, Description, Price) VALUES (@IdProduct, @Name, @Description, @Price)";
+                string queryInsert = "INSERT INTO Eventos (Id, [Name], [Description], [Start], [End], Users) VALUES (@Id, @Name, @Description, @Start, @End, @Users)";
 
                 using (SqlCommand cmd = new SqlCommand(queryInsert, con))
                 {
-                    cmd.Parameters.AddWithValue("@Id", evento.Id);
-                    cmd.Parameters.AddWithValue("@Name", evento.Start);
-                    cmd.Parameters.AddWithValue("@Description", evento.Description);
-                    cmd.Parameters.AddWithValue("@Price", evento.End);
-
-                    // como registrar os usuarios de um evento?
+                    cmd.Parameters.AddWithValue("@Id", IdEvent);
+                    cmd.Parameters.AddWithValue("@Name", Name);
+                    cmd.Parameters.AddWithValue("@Description", Description);
+                    cmd.Parameters.AddWithValue("@Start", Start);
+                    cmd.Parameters.AddWithValue("@End",  End);
+                    cmd.Parameters.AddWithValue("@Users", creatorId.ToString());
 
                     con.Open();
 
@@ -100,5 +118,59 @@ namespace AgendaBack.Repositories
                 }
             }
         }
+
+        //**
+        public static void DeleteEvent(int IdEvent)
+        {
+
+            using (SqlConnection con = new SqlConnection(stringConexao))
+            {
+
+
+                string queryInsert = "DELETE FROM Eventos WHERE Id = @Id";
+
+                using (SqlCommand cmd = new SqlCommand(queryInsert, con))
+                {
+                    cmd.Parameters.AddWithValue("@Id", IdEvent);
+                    
+                    con.Open();
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        //**
+        public static void EditEvent(int IdEvent, string Name, string Description, DateTime Start, DateTime End)
+        {
+            using (SqlConnection con = new SqlConnection(stringConexao))
+            {
+
+
+                string queryInsert = "UPDATE Eventos SET [Name] = @Name, [Description] = @Description, [Start] = @Start, [End] = @End WHERE Id = @Id";
+
+                using (SqlCommand cmd = new SqlCommand(queryInsert, con))
+                {
+                    cmd.Parameters.AddWithValue("@Id", IdEvent);
+                    cmd.Parameters.AddWithValue("@Name", Name);
+                    cmd.Parameters.AddWithValue("@Description", Description);
+                    cmd.Parameters.AddWithValue("@Start", Start);
+                    cmd.Parameters.AddWithValue("@End", End);
+
+
+                    con.Open();
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+
+        }
+
+
+
+
+
+
+
     }
 }
