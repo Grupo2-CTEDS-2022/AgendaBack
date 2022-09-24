@@ -1,0 +1,18 @@
+POST http://localhost:5064/v1/events/create
+Content-Type: application/json
+Authorization: Bearer eyJuYW1lIjoiYmF0bWFuIiwiZW1haWwiOiJtYW5hZ2VyIiwibmJmIjoxNjYzOTc3ODgzLCJleHAiOjE2NjM5ODUwODMsImlhdCI6MTY2Mzk3Nzg4M30.D9wDCf4pSLFw6Vvj1D_cvbdBxeVWpk0z-WEFHetSUp8
+
+{
+    "Name": "batman",
+    "Password": "batman"
+}
+
+###
+
+POST http://localhost:5064/v1/account/login
+Content-Type: application/json
+
+{
+    "Name": "batman",
+    "Password": "batman"
+}
