@@ -1,2 +1,4 @@
 .DS_Store
 AgendaBack/Repositories/Keys.cs
+AgendaBack/obj/
+AgendaBack/bin/
