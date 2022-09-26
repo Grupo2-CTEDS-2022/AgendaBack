@@ -1,3 +1,4 @@
+using Microsoft.VisualBasic.CompilerServices;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -7,18 +8,38 @@ using Microsoft.AspNetCore.Authorization;
 using System.Linq;
 using AgendaBack.Services;
 using AgendaBack.Repositories;
+using AgendaBack.StaticFunction;
 
 namespace AgendaBack.Controllers
 {
     [Route("v1/users")]
     public class UsersController : Controller
     {
+
         [HttpPost]
         [Route("create")]
-        [Authorize]
-        public async Task<string> UserCreation([FromBody]User model){ 
-            Console.WriteLine("Create");
-            return "Generatinf";
+        [AllowAnonymous]
+        public async Task<ActionResult<dynamic>> UserCreation([FromBody]User model){ 
+            try
+            {
+                Console.WriteLine("Create");
+                string encryptedPass = UtilsFunctions.Encrypt(model.Password);
+                User newUser = new()
+                {
+                    Name = model.Name,
+                    Email = model.Email,
+                    Password = encryptedPass,
+                };
+
+                UserRepository.addUser(newUser);
+                return newUser;
+            } catch (System.Exception Error)
+            {
+                Console.WriteLine("Erro na criação do usuário");
+                Console.WriteLine(Error);
+                return StatusCode(500, new { message = "Erro no servidor" });
+                
+            };
         }
         [HttpPost]
         [Route("delete")]

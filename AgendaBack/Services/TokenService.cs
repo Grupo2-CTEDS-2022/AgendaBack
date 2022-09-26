@@ -16,6 +16,8 @@ namespace AgendaBack.Services
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(Settings.Secret);
+            Console.WriteLine("Verificando email");
+            Console.WriteLine(user.Email.ToString());
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]

@@ -6,34 +6,32 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.Json;
 using System.Data.SqlClient;
+using AgendaBack.StaticFunction;
 
 namespace AgendaBack.Repositories
 {
-    public static class UserRepository
+    public class UserRepository
     {
-        private static string stringConexao = "Server=labsoft.pcs.usp.br; Initial Catalog = db_16; User id=usuario_16; pwd=51068523824";
-        //private readonly string stringConexao = "Data source=MP\\SQLEXPRESS; Initial Catalog=Catalog; integrated security=true;";
-        public static User Get(string name, string password)
+        private static string stringConexao = System.Environment.GetEnvironmentVariable("stringConexao");
+        public static User Get(string email, string password)
         {
-
-            User user = new();
-
-
+            User user = null;
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
-                string querySelect = "SELECT * FROM Accounts";
-
                 con.Open();
-
                 SqlDataReader rdr;
-
+                string querySelect = "SELECT * FROM Accounts where Email = @Email";
                 using (SqlCommand cmd = new SqlCommand(querySelect, con))
                 {
+                    cmd.Parameters.AddWithValue("@Email", email);
                     rdr = cmd.ExecuteReader();
-
                     while (rdr.Read())
                     {
-
+                        string decryptedPassword = UtilsFunctions.Decrypt(rdr[3].ToString());
+                        Console.WriteLine(rdr[3].ToString());
+                        Console.WriteLine("password");
+                        Console.WriteLine(password);
+                        Console.WriteLine(decryptedPassword);
                         Models.User usuario = new()
                         {
                             Id = Convert.ToInt32(rdr[0]),
@@ -41,8 +39,7 @@ namespace AgendaBack.Repositories
                             Email = rdr[2].ToString(),
                             Password = rdr[3].ToString()
                         };
-
-                        if (usuario.Name == name && usuario.Password == password) user = usuario;
+                        if (usuario.Email == email && decryptedPassword == password) user = usuario;
                     }
                 }
             }
@@ -50,12 +47,45 @@ namespace AgendaBack.Repositories
             return user;
         }
 
+        public static User GetByEmail(string email)
+        {
+            User user = null;
+            using (SqlConnection con = new SqlConnection(stringConexao))
+            {
+                con.Open();
+                SqlDataReader rdr;
+                string querySelect = "SELECT * FROM Accounts where Email = @email";
+                using (SqlCommand cmd = new SqlCommand(querySelect, con))
+                {
+                    cmd.Parameters.AddWithValue("@email", email);
+                    rdr = cmd.ExecuteReader();
+
+                    while (rdr.Read())
+                    {
+                        Console.WriteLine(rdr[0]);
+                        Console.WriteLine(rdr[1]);
+                        Models.User usuario = new()
+                        {
+                            Id = Convert.ToInt32(rdr[0]),
+                            Name = rdr[1].ToString(),
+                            Email = rdr[2].ToString(),
+                            Password = rdr[3].ToString()
+                        };
+                        Console.WriteLine("Verificando usuario");
+                        if (usuario.Email == email) user = usuario;
+                    }
+                }
+            }
+
+            return user;
+        }
+
+
+
         private static string listToJson(List<User> listUsers)
         {
-
             var json = JsonSerializer.Serialize(listUsers);
             return json;
-
         }
 
         public static void addUser(User user)
@@ -64,19 +94,13 @@ namespace AgendaBack.Repositories
             // não revisado
             using (SqlConnection con = new SqlConnection(stringConexao))
             {
-
-
-                string queryInsert = "INSERT INTO Accounts (Id, Name, Email, Password) VALUES (@Id, @Name, @Email, @Password)";
-
+                string queryInsert = "INSERT INTO Accounts (Name, Email, Password) VALUES (@Name, @Email, @Password)";
                 using (SqlCommand cmd = new SqlCommand(queryInsert, con))
                 {
-                    cmd.Parameters.AddWithValue("@Id", user.Id);
                     cmd.Parameters.AddWithValue("@Name", user.Name);
                     cmd.Parameters.AddWithValue("@Email", user.Email);
                     cmd.Parameters.AddWithValue("@Password", user.Password);
-
                     con.Open();
-
                     cmd.ExecuteNonQuery();
                 }
             }

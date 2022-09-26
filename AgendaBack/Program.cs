@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using DotNetEnv;
 
 namespace AgendaBack
 {
@@ -7,6 +8,9 @@ namespace AgendaBack
     {
         public static void Main(string[] args)
         {
+            DotNetEnv.Env.Load();
+            DotNetEnv.Env.TraversePath().Load();
+
             CreateHostBuilder(args).Build().Run();
         }
 

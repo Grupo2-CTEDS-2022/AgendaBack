@@ -16,9 +16,9 @@ GO
 
 -- Insere um registro na tabela
 INSERT INTO Accounts (IdAccount, [Name], [Email], [Password])
-VALUES				 ('ADM-01', 'Admin', 'admin@email.com', 'admin123');
+VALUES				 ('Admin', 'admin@email.com', 'admin123');
 GO
 
 INSERT INTO Accounts (IdAccount, [Name], [Email], [Password])
-VALUES				 ('ADM-02', 'Test', 'test@email.com', 'test123');
+VALUES				 ('Test', 'test@email.com', 'test123');
 GO

@@ -16,3 +16,69 @@ Content-Type: application/json
     "Name": "batman",
     "Password": "batman"
 }
+
+###
+
+GET http://localhost:5064/v1/account/anonymous
+Content-Type: application/json
+
+###
+POST http://localhost:5064/v1/account/login
+Content-Type: application/json
+
+{
+    "Name": "jorge2",
+    "Password": "12345"
+}
+
+###
+
+GET http://localhost:5064/v1/account/authenticated
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRtaW4iLCJlbWFpbCI6ImFkbWluQGVtYWlsLmNvbSIsIm5iZiI6MTY2NDEzNjUwNCwiZXhwIjoxNjY0MTQzNzA0LCJpYXQiOjE2NjQxMzY1MDR9.WXN16WfBy-omzDxPFu-a1wO4cy3gsvEzIl2no_x2_Mc
+
+###
+
+POST http://localhost:5064/v1/events/create
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiam9yZ2UyIiwiZW1haWwiOiJqb3JnZTJAZ21haWwuY29tIiwibmJmIjoxNjY0MTUxODk3LCJleHAiOjE2NjQxNTkwOTcsImlhdCI6MTY2NDE1MTg5N30.duwMqW9D3wBVzGW32i7W0QCFoRIPRZdjk5uhRnuMUi0
+
+{
+    "Name": "Festa",
+    "Description": "admin123",
+    "Start": "2022-09-25T14:00",
+    "End": "2022-09-25T16:00"
+}
+
+###
+POST http://localhost:5064/v1/events/get
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiam9yZ2UyIiwiZW1haWwiOiJqb3JnZTJAZ21haWwuY29tIiwibmJmIjoxNjY0MTQ3MjUxLCJleHAiOjE2NjQxNTQ0NTEsImlhdCI6MTY2NDE0NzI1MX0.LuqQ4yl2kuSyPHHTKoU0Xo8Xi12vKug4Inl8Txae52M
+
+{
+    "Id": 5,
+    "Start": "2022-09-25",
+    "End": "2022-09-26"
+}
+
+###
+POST http://localhost:5064/v1/events/delete
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiam9yZ2UyIiwiZW1haWwiOiJqb3JnZTJAZ21haWwuY29tIiwibmJmIjoxNjY0MTQ3MjUxLCJleHAiOjE2NjQxNTQ0NTEsImlhdCI6MTY2NDE0NzI1MX0.LuqQ4yl2kuSyPHHTKoU0Xo8Xi12vKug4Inl8Txae52M
+
+{
+    "Id": 3,
+}
+
+###
+POST http://localhost:5064/v1/events/update
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiam9yZ2UyIiwiZW1haWwiOiJqb3JnZTJAZ21haWwuY29tIiwibmJmIjoxNjY0MTQ3MjUxLCJleHAiOjE2NjQxNTQ0NTEsImlhdCI6MTY2NDE0NzI1MX0.LuqQ4yl2kuSyPHHTKoU0Xo8Xi12vKug4Inl8Txae52M
+
+{
+    "Id": 4,
+    "Name": "Festa",
+    "Description": "admin123",
+    "Start": "2022-09-26T15:00",
+    "End": "2022-09-26T20:00"
+}
